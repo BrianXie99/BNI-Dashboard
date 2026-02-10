@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
       }
       
       // Map columns using default mapping
-      const mapped = mapColumns<ActivityRow>([row], [], defaultWeeklyMapping)[0] as MappedActivityRow;
+      const mapped = mapColumns<ActivityRow>([row], [], defaultWeeklyMapping)[0] as unknown as MappedActivityRow;
       
       // Match member by name
       const member = memberMap.get(mapped.memberName);
