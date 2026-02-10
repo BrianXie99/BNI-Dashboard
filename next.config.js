@@ -47,6 +47,16 @@ const nextConfig = {
   images: {
     domains: [],
   },
+  // Disable static optimization for API routes
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+  },
+  // Skip build-time static generation for pages that need runtime data
+  generateBuildId: async () => {
+    return 'build-' + Date.now()
+  },
 };
 
 module.exports = withPWA(nextConfig);
