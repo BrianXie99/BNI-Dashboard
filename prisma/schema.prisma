@@ -1,0 +1,157 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_DIRECT")
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+enum MemberStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum InsightType {
+  PERFORMANCE
+  OPPORTUNITY
+  RECOMMENDATION
+  PATTERN
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String?
+  role          Role      @default(MEMBER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Member {
+  id              String   @id @default(cuid())
+  phoneId         String   @unique
+  memberNumber    String   @unique
+  name            String
+  industry        String
+  master          String?
+  joinDate        DateTime
+  status          MemberStatus @default(ACTIVE)
+  activities      Activity[]
+  aiInsights      AIInsight[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Activity {
+  id              String   @id @default(cuid())
+  memberId        String
+  member          Member   @relation(fields: [memberId], references: [id])
+  phoneId         String   // Phone ID from member sheet (unique identifier)
+  memberName      String   // Store original name for matching
+  identity        String?  // 身份
+  activityDate    DateTime
+  weekNumber      Int      // Week number (1-52)
+  year           Int      // Year
+  
+  // Attendance (出席情况)
+  // Possible values: 出席, 缺席, 迟到, 替代人, 请假
+  attendance      String   @default("出席")
+  
+  // Referrals (引荐)
+  provideInsideRef    Int   @default(0)  // 提供内部引荐
+  provideOutsideRef   Int   @default(0)  // 提供外部引荐
+  receivedInsideRef   Int   @default(0)  // 收到内部引荐
+  receivedOutsideRef  Int   @default(0)  // 收到外部引荐
+  
+  // Visitors (来宾)
+  visitors        Int      @default(0)
+  
+  // One-to-One Meetings (一对一会面)
+  oneToOneVisit   Int      @default(0)
+  
+  // Transaction Value (交易价值 - TYFCB)
+  tyfcb           Float    @default(0)
+  
+  // Education (CEU)
+  ceu             Float    @default(0)
+  
+  // Upload metadata
+  uploadedAt      DateTime @default(now())
+  uploadedBy      String
+  
+  @@unique([memberId, activityDate])
+  @@index([phoneId])
+  @@index([weekNumber, year])
+}
+
+model Term {
+  id              String   @id @default(cuid())
+  term            String   // Term/period name
+  startTime       DateTime // Start time
+  endTime         DateTime // End time
+  weekNumber      Int      // Week number (1-52)
+  date            DateTime // Date
+  isMeeting       Boolean  @default(true)  // Meeting or not
+  remarks         String?  // Remarks/notes
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model AIInsight {
+  id              String   @id @default(cuid())
+  memberId        String
+  member          Member   @relation(fields: [memberId], references: [id])
+  insightType     InsightType
+  title           String
+  content         String
+  recommendations Json?
+  createdAt       DateTime @default(now())
+}
+
+model WeeklyReport {
+  id              String   @id @default(cuid())
+  weekNumber      Int
+  year            Int
+  startDate       DateTime
+  endDate         DateTime
+  
+  // Summary Statistics
+  totalMembers    Int
+  totalInsideReferrals  Int
+  totalOutsideReferrals Int
+  totalTYFCB      Float
+  totalOneToOneVisits Int
+  totalVisitors   Int
+  attendanceRate  Float
+  totalCEU        Float
+  
+  // Top Performers
+  topReferrers    Json
+  topTYFCB        Json
+  topOneToOnes    Json
+  
+  createdAt       DateTime @default(now())
+  
+  @@unique([weekNumber, year])
+}
+
+model ColumnMappingTemplate {
+  id              String   @id @default(cuid())
+  name            String   // Template name (e.g., "Weekly Activity Template")
+  uploadType      String   // 'weekly' or 'members' or 'terms'
+  mapping         Json     // Column mapping as JSON
+  isDefault       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

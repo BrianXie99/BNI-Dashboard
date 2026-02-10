@@ -1,0 +1,22 @@
+Members Excel Template Format
+==============================
+
+Required Columns:
+- Phone_ID: Unique phone identifier (e.g., "1234567890")
+- Member_Number: Member number (e.g., "M001")
+- Name: Full name of the member
+- Industry: Business industry/category
+- Master: Master member name (optional, can be empty)
+- Join_Date: Date joined BNI (format: YYYY-MM-DD or Excel date)
+- Status: Member status (ACTIVE or INACTIVE)
+
+Example:
+Phone_ID    | Member_Number | Name      | Industry   | Master     | Join_Date  | Status
+1234567890  | M001          | John Doe  | Technology | Jane Smith | 2024-01-01 | ACTIVE
+0987654321  | M002          | Jane Smith| Finance    |            | 2024-02-01 | ACTIVE
+
+Notes:
+- Phone_ID must be unique for each member
+- Join_Date can be in YYYY-MM-DD format or Excel date serial number
+- Master field is optional
+- Status must be either "ACTIVE" or "INACTIVE"

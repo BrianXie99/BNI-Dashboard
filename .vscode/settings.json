@@ -1,0 +1,6 @@
+{
+  "livePreview.defaultPreviewPath": "http://localhost:3000",
+  "livePreview.portNumber": 3000,
+  "livePreview.showServerStatusNotifications": true,
+  "simpleBrowser.focusLockIndicator.enabled": true
+}
