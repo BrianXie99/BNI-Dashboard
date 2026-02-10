@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { parseExcelFile, mapColumns, validateActivityRow, type ActivityRow } from '@/lib/excel-parser';
+import { parseExcelFile, mapColumns, validateActivityRow, type ActivityRow, type MappedActivityRow } from '@/lib/excel-parser';
 import { getWeek, getYear } from 'date-fns';
 
 // Default column mapping for weekly activity
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
       }
       
       // Map columns using default mapping
-      const mapped = mapColumns<ActivityRow>([row], [], defaultWeeklyMapping)[0];
+      const mapped = mapColumns<ActivityRow>([row], [], defaultWeeklyMapping)[0] as MappedActivityRow;
       
       // Match member by name
       const member = memberMap.get(mapped.memberName);
