@@ -22,7 +22,8 @@
       "Bash(sudo tee:*)",
       "Bash(sudo apt update:*)",
       "Bash(sudo apt install:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(npx prisma migrate dev:*)"
     ]
   }
 }
