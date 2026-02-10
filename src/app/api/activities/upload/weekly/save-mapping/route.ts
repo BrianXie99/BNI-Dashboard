@@ -30,19 +30,26 @@ export async function POST(request: NextRequest) {
     }
     
     // Create or update template
-    const template = await prisma.columnMappingTemplate.upsert({
-      where: { name },
-      update: {
-        mapping,
-        isDefault: isDefault || false,
-      },
-      create: {
-        name,
-        uploadType: 'weekly',
-        mapping,
-        isDefault: isDefault || false,
-      },
+    const existing = await prisma.columnMappingTemplate.findFirst({
+      where: { name, uploadType: 'weekly' },
     });
+
+    const template = existing
+      ? await prisma.columnMappingTemplate.update({
+          where: { id: existing.id },
+          data: {
+            mapping,
+            isDefault: isDefault || false,
+          },
+        })
+      : await prisma.columnMappingTemplate.create({
+          data: {
+            name,
+            uploadType: 'weekly',
+            mapping,
+            isDefault: isDefault || false,
+          },
+        });
     
     return NextResponse.json({
       success: true,

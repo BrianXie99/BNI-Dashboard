@@ -9,7 +9,20 @@
       "Bash(/home/brianxie/BNI_Dashboard/public/members_template_info.txt << 'EOF'\nMembers Excel Template Format\n==============================\n\nRequired Columns:\n- Phone_ID: Unique phone identifier \\(e.g., \"1234567890\"\\)\n- Member_Number: Member number \\(e.g., \"M001\"\\)\n- Name: Full name of the member\n- Industry: Business industry/category\n- Master: Master member name \\(optional, can be empty\\)\n- Join_Date: Date joined BNI \\(format: YYYY-MM-DD or Excel date\\)\n- Status: Member status \\(ACTIVE or INACTIVE\\)\n\nExample:\nPhone_ID    | Member_Number | Name      | Industry   | Master     | Join_Date  | Status\n1234567890  | M001          | John Doe  | Technology | Jane Smith | 2024-01-01 | ACTIVE\n0987654321  | M002          | Jane Smith| Finance    |            | 2024-02-01 | ACTIVE\n\nNotes:\n- Phone_ID must be unique for each member\n- Join_Date can be in YYYY-MM-DD format or Excel date serial number\n- Master field is optional\n- Status must be either \"ACTIVE\" or \"INACTIVE\"\nEOF)",
       "Bash(npx prisma generate:*)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git config:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(gh auth:*)",
+      "Bash(curl:*)",
+      "Bash(sudo dd:*)",
+      "Bash(sudo chmod:*)",
+      "Bash(sudo tee:*)",
+      "Bash(sudo apt update:*)",
+      "Bash(sudo apt install:*)",
+      "Bash(npm run build:*)"
     ]
   }
 }
